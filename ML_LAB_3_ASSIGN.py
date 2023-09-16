@@ -119,33 +119,49 @@ print("Predicted class for test vector {}: {}".format(test_vector_index, predict
 
 
 import numpy as np
-import pandas as pd
+import matplotlib.pyplot as plt
 from sklearn.neighbors import KNeighborsClassifier
-from sklearn.model_selection import train_test_split
+from sklearn.metrics import accuracy_score
+# Creating lists so as to store accuracy values for kNN and NN classifiers
+accuracies_kNN = []
+accuracies_NN = []
 
-# Define your feature vectors (X) and class labels (y)
-# Example:
-vector1 = df['embed_0'].astype(int)
-vector2 = df['embed_5'].astype(int)
+#k varies from 1 to 11
+k_values = range(1, 11)
 
-# Create a 2D array by stacking the vectors vertically
-X = np.vstack((vector1, vector2)).T  # Transpose for proper shape
-y = np.array([0, 1])  # Example class labels
+for k in k_values:
+    # Train the kNN classifier with the current k value
+    kNN_classifier = KNeighborsClassifier(n_neighbors=k)
+    kNN_classifier.fit(X_train, y_train)
+    y_pred_kNN = kNN_classifier.predict(X_test)
+    
+    # Calculating accuracy for kNN classifier
+    accuracy_kNN = accuracy_score(y_test, y_pred_kNN)
+    accuracies_kNN.append(accuracy_kNN)
+    # Train the NN classifier for k=1
+    NN_classifier = KNeighborsClassifier(n_neighbors=1)
+    NN_classifier.fit(X_train, y_train)
+    y_pred_NN = NN_classifier.predict(X_test)
+        
+    # Calculating accuracy for NN where k=1
+    accuracy_NN = accuracy_score(y_test, y_pred_NN)
+    accuracies_NN.append(accuracy_NN)
 
-# Split your data into training and test sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
 
-# Create a k-NN classifier with k = 3
-neigh = KNeighborsClassifier(n_neighbors=3)
 
-# Train the classifier on the training set
-neigh.fit(X_train, y_train)
+# Creating an accuracy plot
+plt.figure(figsize=(15, 8))
+plt.plot(k_values, accuracies_kNN, marker='o', label='kNN (k=3)')
+plt.plot(k_values, accuracies_NN, marker='o', label='NN (k=1)')
 
-# Test the accuracy of the k-NN classifier on the test set
-accuracy = neigh.score(X_test, y_test)
+plt.title('Accuracy vs. k Value')
+plt.xlabel('k Value')
+plt.ylabel('Accuracy')
+plt.xticks(k_values)
+plt.legend()
+plt.grid(True)
+plt.show()
 
-# Print the accuracy
-print(f"Accuracy: {accuracy}")
 
 
 # In[ ]:
