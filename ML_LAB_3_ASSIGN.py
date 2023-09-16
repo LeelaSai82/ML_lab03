@@ -32,6 +32,7 @@ print(f'Interclass distance between Class A and Class B: {inter_class_distance}'
 
 
 #numeric_mean=df.mean()
+#numeric_mean=df.mean()
 num_bins=5
 plt.hist(df, bins=num_bins, edgecolor='k')
 plt.xlabel('Value')
@@ -39,8 +40,8 @@ plt.ylabel('Frequency')
 plt.title('Histogram of Feature')
 
 # Calculate the mean and variance
-mean = np.mean(df)
-variance = np.var(df)
+mean = df.mean(axis=0)
+variance = df.var(axis=0)
 
 print(f"Mean: {mean}")
 print(f"Variance: {variance}")
