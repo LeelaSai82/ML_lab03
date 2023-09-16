@@ -166,6 +166,42 @@ plt.show()
 
 # In[ ]:
 
+from sklearn.metrics import confusion_matrix, precision_score, recall_score, f1_score
+# Assuming you have already trained your k-NN classifier (neigh) and have X_train and y_train for training data,
+# and X_test and y_test for test data.
+# Train the k-NN classifier
+neigh.fit(X_train, y_train)
+# Predictions for training and test data
+y_train_pred = neigh.predict(X_train)
+y_test_pred = neigh.predict(X_test)
+# Confusion matrix for training data
+confusion_matrix_train = confusion_matrix(y_train, y_train_pred)
+# Confusion matrix for test data
+confusion_matrix_test = confusion_matrix(y_test, y_test_pred)
+# Precision, recall, and F1-score for training data
+precision_train = precision_score(y_train, y_train_pred, average='weighted')
+recall_train = recall_score(y_train, y_train_pred, average='weighted')
+f1_score_train = f1_score(y_train, y_train_pred, average='weighted')
 
+# Precision, recall, and F1-score for test data
+precision_test = precision_score(y_test, y_test_pred, average='weighted')
+recall_test = recall_score(y_test, y_test_pred, average='weighted')
+f1_score_test = f1_score(y_test, y_test_pred, average='weighted')
+
+# Print confusion matrix and performance metrics
+print("Confusion Matrix (Training Data):")
+print(confusion_matrix_train)
+print("\nConfusion Matrix (Test Data):")
+print(confusion_matrix_test)
+
+print("\nPerformance Metrics (Training Data):")
+print("Precision:", precision_train)
+print("Recall:", recall_train)
+print("F1-Score:", f1_score_train)
+
+print("\nPerformance Metrics (Test Data):")
+print("Precision:", precision_test)
+print("Recall:", recall_test)
+print("F1-Score:", f1_score_test)
 
 
