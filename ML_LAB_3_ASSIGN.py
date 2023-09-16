@@ -47,21 +47,27 @@ print(f"Variance: {variance}")
 
 plt.show()
 
+import pandas as pd
+vector1 = df.loc[0, ["embed_1", "embed_2"]].values
+vector2 = df.loc[1, ["embed_1", "embed_2"]].values
+print("Feature Vector 1:")
+print(vector1)
+print("\nFeature Vector 2:")
+print(vector2)
 
 # In[13]:
 
 
-vector1 = df['embed_0'].astype(int)
-vector2 = df['embed_5'].astype(int)
-r_values = np.arange(1, 11)
-distances = []
-for r in r_values:
-    distance = np.power(np.sum(np.abs(vector1 - vector2) ** r), 1 / r)
-    distances.append(distance)
-plt.plot(r_values, distances, marker='o')
-plt.xlabel('r')
-plt.ylabel('Minkowski Distance')
-plt.title('Minkowski Distance vs. r')
+def minkowski_distance(x, y, r):
+    return np.sum(np.abs(x - y) ** r) ** (1 / r)
+values_r = range(1, 11)
+distances = [minkowski_distance(vector1, vector2, r) for r in values_r]
+print(distances)
+plt.figure(figsize=(10, 7))
+plt.plot(values_r, distances, marker='o', linestyle='-')
+plt.title("Minkowski Distance vs Values of r")
+plt.xlabel("r")
+plt.ylabel("Minkowski Distance")
 plt.grid(True)
 plt.show()
 
