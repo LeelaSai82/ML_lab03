@@ -76,51 +76,18 @@ plt.show()
 
 
 import numpy as np
+import pandas as pd
+from sklearn.neighbors import KNeighborsClassifier
 from sklearn.model_selection import train_test_split
 
-# Assuming X contains your feature vectors and y contains your class labels
-# X should be a 2D array where each row is a feature vector, and y should be a 1D array or list of class labels
+# Define your feature vectors (X) and class labels (y)
+# Example:
+binary_df = df[df['Label'].isin([0, 1])]
+X = binary_df[['embed_1', 'embed_2']]
+y = binary_df['Label']  # Example class labels
 
-# Split the data into training and test sets
-
+# Split your data into training and test sets
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.3, random_state=42)
-
-# X_train: Training feature vectors
-# X_test: Test feature vectors
-# y_train: Training class labels
-# y_test: Test class labels
-
-# You can adjust the test_size parameter to set the size of your test set (e.g., 0.3 for a 70-30 split)
-
-# The random_state parameter is set for reproducibility, you can change it or remove it if you don't need reproducibility
-
-
-# In[18]:
-
-
-import numpy as np
-from sklearn.neighbors import KNeighborsClassifier
-
-# Assuming you have already split your data into a training set (X_train, y_train)
-
-# Create a k-NN classifier with k = 3
-neigh = KNeighborsClassifier(n_neighbors=3)
-neigh.fit(X_train, y_train)
-
-
-# In[20]:
-
-
-pip install --upgrade scikit-learn numpy
-
-
-# In[18]:
-
-
-import numpy as np
-from sklearn.neighbors import KNeighborsClassifier
-
-# Assuming you have already split your data into a training set (X_train, y_train)
 
 # Create a k-NN classifier with k = 3
 neigh = KNeighborsClassifier(n_neighbors=3)
@@ -133,6 +100,19 @@ accuracy = neigh.score(X_test, y_test)
 
 # Print the accuracy
 print(f"Accuracy: {accuracy}")
+
+
+# In[18]:
+
+# Import the necessary libraries (if not already imported)
+from sklearn.neighbors import KNeighborsClassifier
+
+# Assuming you have already trained your 'neigh' classifier
+# If not, make sure you fit it to your training data before making predictions
+test_vector_index = 0
+predicted_class = neigh.predict([X_test.iloc[test_vector_index]])  # Pass a list containing the test vector
+
+print("Predicted class for test vector {}: {}".format(test_vector_index, predicted_class))
 
 
 # In[17]:
